@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.LinkedList;
+import java.util.LinkedHashSet;
 
 public class TrainConsistManagementApp {
 
@@ -73,5 +74,20 @@ public class TrainConsistManagementApp {
 
         System.out.println("\nAfter removing first and last bogie:");
         System.out.println(train);
+
+        // ================= UC5 =================
+        System.out.println("\n=== UC5: Preserve Insertion Order of Bogies ===");
+
+        LinkedHashSet<String> formation = new LinkedHashSet<>();
+
+        formation.add("Engine");
+        formation.add("Sleeper");
+        formation.add("Cargo");
+        formation.add("Guard");
+
+        formation.add("Sleeper"); // duplicate
+
+        System.out.println("Train Formation:");
+        System.out.println(formation);
     }
 }
