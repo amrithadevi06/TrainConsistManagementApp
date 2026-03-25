@@ -2,12 +2,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.LinkedList;
 
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        // UC1: Initialize Train
+        // ================= UC1 =================
         System.out.println("=== Train Consist Management App ===");
 
         List<String> bogies = new ArrayList<>();
@@ -15,7 +16,7 @@ public class TrainConsistManagementApp {
         System.out.println("Train consist initialized.");
         System.out.println("Initial bogie count: " + bogies.size());
 
-        // UC2: Add Passenger Bogies
+        // ================= UC2 =================
         bogies.add("Sleeper");
         bogies.add("AC Chair");
         bogies.add("First Class");
@@ -35,21 +36,42 @@ public class TrainConsistManagementApp {
         System.out.println(bogies);
 
         // ================= UC3 =================
-
         System.out.println("\n=== UC3: Unique Bogie IDs ===");
 
-        // Create HashSet
         Set<String> bogieIds = new HashSet<>();
 
-        // Add IDs (with duplicates intentionally)
         bogieIds.add("BG101");
         bogieIds.add("BG102");
         bogieIds.add("BG103");
         bogieIds.add("BG101"); // duplicate
         bogieIds.add("BG102"); // duplicate
 
-        // Display unique IDs
         System.out.println("Unique Bogie IDs:");
         System.out.println(bogieIds);
+
+        // ================= UC4 =================
+        System.out.println("\n=== UC4: Maintain Ordered Train Consist ===");
+
+        LinkedList<String> train = new LinkedList<>();
+
+        train.add("Engine");
+        train.add("Sleeper");
+        train.add("AC");
+        train.add("Cargo");
+        train.add("Guard");
+
+        System.out.println("Initial Train:");
+        System.out.println(train);
+
+        train.add(2, "Pantry");
+
+        System.out.println("\nAfter adding Pantry at position 2:");
+        System.out.println(train);
+
+        train.removeFirst();
+        train.removeLast();
+
+        System.out.println("\nAfter removing first and last bogie:");
+        System.out.println(train);
     }
 }
