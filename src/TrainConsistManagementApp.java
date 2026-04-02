@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.regex.*;
 
-// Bogie Class (for UC7–UC11)
+// Bogie Class (UC7–UC10)
 class Bogie {
     String name;
     int capacity;
@@ -15,6 +15,22 @@ class Bogie {
     @Override
     public String toString() {
         return name + " -> " + capacity;
+    }
+}
+
+// Goods Bogie Class (UC12)
+class GoodsBogie {
+    String type;
+    String cargo;
+
+    GoodsBogie(String type, String cargo) {
+        this.type = type;
+        this.cargo = cargo;
+    }
+
+    @Override
+    public String toString() {
+        return type + " -> " + cargo;
     }
 }
 
@@ -119,39 +135,38 @@ public class TrainConsistManagementApp {
         bogieList.add(new Bogie("Sleeper", 72));
         bogieList.add(new Bogie("AC Chair", 54));
         bogieList.add(new Bogie("First Class", 24));
-        bogieList.add(new Bogie("Sleeper", 72)); // duplicate for grouping
+        bogieList.add(new Bogie("Sleeper", 72)); // duplicate
 
         bogieList.sort(Comparator.comparingInt(b -> b.capacity));
 
-        System.out.println("Sorted Bogies (by capacity):");
+        System.out.println("Sorted Bogies:");
         for (Bogie b : bogieList) {
             System.out.println(b);
         }
 
         // ================= UC8 =================
-        System.out.println("\n=== UC8: Filter Passenger Bogies Using Streams ===");
+        System.out.println("\n=== UC8: Filter Bogies (>60 capacity) ===");
 
-        List<Bogie> filteredBogies = bogieList.stream()
+        List<Bogie> filtered = bogieList.stream()
                 .filter(b -> b.capacity > 60)
                 .toList();
 
-        System.out.println("Bogies with capacity > 60:");
-        for (Bogie b : filteredBogies) {
+        for (Bogie b : filtered) {
             System.out.println(b);
         }
 
         // ================= UC9 =================
         System.out.println("\n=== UC9: Group Bogies by Type ===");
 
-        Map<String, List<Bogie>> groupedBogies = bogieList.stream()
+        Map<String, List<Bogie>> grouped = bogieList.stream()
                 .collect(Collectors.groupingBy(b -> b.name));
 
-        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
+        for (Map.Entry<String, List<Bogie>> entry : grouped.entrySet()) {
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }
 
         // ================= UC10 =================
-        System.out.println("\n=== UC10: Count Total Seats in Train ===");
+        System.out.println("\n=== UC10: Total Seats ===");
 
         int totalSeats = bogieList.stream()
                 .map(b -> b.capacity)
@@ -160,7 +175,7 @@ public class TrainConsistManagementApp {
         System.out.println("Total Seating Capacity: " + totalSeats);
 
         // ================= UC11 =================
-        System.out.println("\n=== UC11: Validate Train ID & Cargo Codes ===");
+        System.out.println("\n=== UC11: Regex Validation ===");
 
         String trainId = "TRN-1234";
         String cargoCode = "PET-AB";
@@ -168,19 +183,37 @@ public class TrainConsistManagementApp {
         Pattern trainPattern = Pattern.compile("TRN-\\d{4}");
         Pattern cargoPattern = Pattern.compile("PET-[A-Z]{2}");
 
-        Matcher trainMatcher = trainPattern.matcher(trainId);
-        Matcher cargoMatcher = cargoPattern.matcher(cargoCode);
-
-        if (trainMatcher.matches()) {
-            System.out.println("Train ID is VALID: " + trainId);
+        if (trainPattern.matcher(trainId).matches()) {
+            System.out.println("Valid Train ID: " + trainId);
         } else {
-            System.out.println("Train ID is INVALID: " + trainId);
+            System.out.println("Invalid Train ID: " + trainId);
         }
 
-        if (cargoMatcher.matches()) {
-            System.out.println("Cargo Code is VALID: " + cargoCode);
+        if (cargoPattern.matcher(cargoCode).matches()) {
+            System.out.println("Valid Cargo Code: " + cargoCode);
         } else {
-            System.out.println("Cargo Code is INVALID: " + cargoCode);
+            System.out.println("Invalid Cargo Code: " + cargoCode);
+        }
+
+        // ================= UC12 =================
+        System.out.println("\n=== UC12: Safety Check ===");
+
+        List<GoodsBogie> goods = new ArrayList<>();
+        goods.add(new GoodsBogie("Cylindrical", "Petroleum"));
+        goods.add(new GoodsBogie("Rectangular", "Coal"));
+        goods.add(new GoodsBogie("Cylindrical", "Petroleum"));
+
+        boolean isSafe = goods.stream()
+                .allMatch(g -> !g.type.equals("Cylindrical") || g.cargo.equals("Petroleum"));
+
+        for (GoodsBogie g : goods) {
+            System.out.println(g);
+        }
+
+        if (isSafe) {
+            System.out.println("Train is SAFE ✅");
+        } else {
+            System.out.println("Train is NOT SAFE ❌");
         }
     }
 }
