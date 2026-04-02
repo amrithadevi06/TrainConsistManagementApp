@@ -1,7 +1,7 @@
 import java.util.*;
 import java.util.stream.Collectors;
 
-// Bogie Class (for UC7, UC8, UC9)
+// Bogie Class (for UC7–UC10)
 class Bogie {
     String name;
     int capacity;
@@ -93,7 +93,7 @@ public class TrainConsistManagementApp {
         formation.add("Sleeper");
         formation.add("Cargo");
         formation.add("Guard");
-        formation.add("Sleeper");
+        formation.add("Sleeper"); // duplicate ignored
 
         System.out.println("Train Formation:");
         System.out.println(formation);
@@ -118,7 +118,7 @@ public class TrainConsistManagementApp {
         bogieList.add(new Bogie("Sleeper", 72));
         bogieList.add(new Bogie("AC Chair", 54));
         bogieList.add(new Bogie("First Class", 24));
-        bogieList.add(new Bogie("Sleeper", 72)); // duplicate for grouping demo
+        bogieList.add(new Bogie("Sleeper", 72)); // duplicate for grouping
 
         bogieList.sort(Comparator.comparingInt(b -> b.capacity));
 
@@ -148,5 +148,14 @@ public class TrainConsistManagementApp {
         for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }
+
+        // ================= UC10 =================
+        System.out.println("\n=== UC10: Count Total Seats in Train ===");
+
+        int totalSeats = bogieList.stream()
+                .map(b -> b.capacity)
+                .reduce(0, Integer::sum);
+
+        System.out.println("Total Seating Capacity: " + totalSeats);
     }
 }
