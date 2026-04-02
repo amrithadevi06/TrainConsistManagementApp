@@ -1,6 +1,7 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
-// Bogie Class (for UC7 & UC8)
+// Bogie Class (for UC7, UC8, UC9)
 class Bogie {
     String name;
     int capacity;
@@ -117,6 +118,7 @@ public class TrainConsistManagementApp {
         bogieList.add(new Bogie("Sleeper", 72));
         bogieList.add(new Bogie("AC Chair", 54));
         bogieList.add(new Bogie("First Class", 24));
+        bogieList.add(new Bogie("Sleeper", 72)); // duplicate for grouping demo
 
         bogieList.sort(Comparator.comparingInt(b -> b.capacity));
 
@@ -135,6 +137,16 @@ public class TrainConsistManagementApp {
         System.out.println("Bogies with capacity > 60:");
         for (Bogie b : filteredBogies) {
             System.out.println(b);
+        }
+
+        // ================= UC9 =================
+        System.out.println("\n=== UC9: Group Bogies by Type ===");
+
+        Map<String, List<Bogie>> groupedBogies = bogieList.stream()
+                .collect(Collectors.groupingBy(b -> b.name));
+
+        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue());
         }
     }
 }
