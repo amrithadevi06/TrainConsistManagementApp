@@ -1,7 +1,6 @@
 import java.util.*;
-import java.util.Comparator;
 
-// Bogie Class (for UC7)
+// Bogie Class (for UC7 & UC8)
 class Bogie {
     String name;
     int capacity;
@@ -95,6 +94,7 @@ public class TrainConsistManagementApp {
         formation.add("Guard");
         formation.add("Sleeper");
 
+        System.out.println("Train Formation:");
         System.out.println(formation);
 
         // ================= UC6 =================
@@ -118,11 +118,22 @@ public class TrainConsistManagementApp {
         bogieList.add(new Bogie("AC Chair", 54));
         bogieList.add(new Bogie("First Class", 24));
 
-        // Sort using Comparator
         bogieList.sort(Comparator.comparingInt(b -> b.capacity));
 
         System.out.println("Sorted Bogies (by capacity):");
         for (Bogie b : bogieList) {
+            System.out.println(b);
+        }
+
+        // ================= UC8 =================
+        System.out.println("\n=== UC8: Filter Passenger Bogies Using Streams ===");
+
+        List<Bogie> filteredBogies = bogieList.stream()
+                .filter(b -> b.capacity > 60)
+                .toList();
+
+        System.out.println("Bogies with capacity > 60:");
+        for (Bogie b : filteredBogies) {
             System.out.println(b);
         }
     }
